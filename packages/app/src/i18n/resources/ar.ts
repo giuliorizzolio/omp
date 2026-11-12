@@ -7,6 +7,14 @@ import { schedules } from "./schedules";
 import { wallpaperLibrary } from "./wallpaper-library";
 
 export const ar: TranslationResources = {
+  closeChoice: {
+    title: "عند إغلاق النافذة",
+    message: "إذا صغّرت التطبيق إلى منطقة الإعلام، يمكنك استعادة النافذة من أيقونة التطبيق هناك.",
+    remember: "تذكّر اختياري ولا تسأل مجددًا",
+    cancel: "إلغاء",
+    quit: "إنهاء التطبيق",
+    background: "تصغير إلى منطقة الإعلام",
+  },
   plugins: en.plugins,
   nativePlugin: en.nativePlugin,
   providerUsage: providerUsage.ar,

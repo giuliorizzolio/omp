@@ -7,6 +7,14 @@ import { schedules } from "./schedules";
 import { wallpaperLibrary } from "./wallpaper-library";
 
 export const ko: TranslationResources = {
+  closeChoice: {
+    title: "창을 닫을 때",
+    message: "시스템 트레이로 최소화하면 트레이 아이콘을 통해 창을 다시 열 수 있습니다.",
+    remember: "선택을 기억하고 다시 묻지 않기",
+    cancel: "취소",
+    quit: "앱 종료",
+    background: "트레이로 최소화",
+  },
   plugins: en.plugins,
   nativePlugin: en.nativePlugin,
   providerUsage: providerUsage.ko,

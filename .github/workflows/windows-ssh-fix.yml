@@ -26,8 +26,8 @@ jobs:
           cache: npm
       - name: Install test dependencies (no native postinstall)
         run: npm ci --ignore-scripts
-      - name: Check Windows and POSIX SSH argument construction
-        run: npx vitest run packages/desktop/src/features/remote-ssh/target.test.ts
+      - name: Check SSH arguments, remote bundle and localization resources
+        run: npx vitest run packages/desktop/src/features/remote-ssh/target.test.ts packages/desktop/src/features/remote-ssh/bundle.test.ts packages/app/src/i18n/resources.test.ts
 
   sdk:
     name: Build native Windows SDK

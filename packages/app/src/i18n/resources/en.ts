@@ -8,6 +8,14 @@ import { visualFeedback } from "./visual-feedback";
 import { unifiedPluginSettings, nativePluginDetails } from "./unified-plugin-settings";
 
 export const en = {
+  closeChoice: {
+    title: "When closing the window",
+    message: "If you minimize to the system tray, you can restore the window from the tray icon.",
+    remember: "Remember my choice and don't ask again",
+    cancel: "Cancel",
+    quit: "Quit app",
+    background: "Minimize to tray",
+  },
   plugins: unifiedPluginSettings.en,
   nativePlugin: { details: nativePluginDetails.en },
   providerUsage: providerUsage.en,

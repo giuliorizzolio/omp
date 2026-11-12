@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Pressable, Text, View } from "react-native";
 import { Check, Power } from "lucide-react-native";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
@@ -18,11 +19,6 @@ const ThemedPower = withUnistyles(Power, (theme: Theme) => ({
 const ThemedCheck = withUnistyles(Check, (theme: Theme) => ({
   color: theme.colors.accentForeground,
 }));
-const CLOSE_CHOICE_HEADER: SheetHeader = {
-  title: "点击关闭时",
-  leading: <ThemedPower />,
-};
-
 const styles = StyleSheet.create((theme) => ({
   message: {
     color: theme.colors.foregroundMuted,
@@ -77,6 +73,11 @@ function readCloseChoiceRequest(input: unknown): DesktopCloseChoiceRequest | nul
 }
 
 export function CloseChoiceDialogHost() {
+  const { t } = useTranslation();
+  const header = useMemo<SheetHeader>(
+    () => ({ title: t("closeChoice.title"), leading: <ThemedPower /> }),
+    [t],
+  );
   const [request, setRequest] = useState<DesktopCloseChoiceRequest | null>(null);
   const [remember, setRemember] = useState(false);
   const [responding, setResponding] = useState(false);
@@ -161,7 +162,7 @@ export function CloseChoiceDialogHost() {
           <View style={[styles.checkbox, remember ? styles.checkboxChecked : null]}>
             {remember ? <ThemedCheck size={13} /> : null}
           </View>
-          <Text style={styles.rememberLabel}>记住我的选择，不再提醒</Text>
+          <Text style={styles.rememberLabel}>{t("closeChoice.remember")}</Text>
         </Pressable>
         <View style={styles.actions}>
           <Button
@@ -172,7 +173,7 @@ export function CloseChoiceDialogHost() {
             onPress={handleCancel}
             testID="close-choice-cancel"
           >
-            取消
+            {t("closeChoice.cancel")}
           </Button>
           <Button
             style={styles.action}
@@ -182,7 +183,7 @@ export function CloseChoiceDialogHost() {
             onPress={handleQuit}
             testID="close-choice-quit"
           >
-            退出应用
+            {t("closeChoice.quit")}
           </Button>
           <Button
             style={styles.action}
@@ -192,7 +193,7 @@ export function CloseChoiceDialogHost() {
             onPress={handleBackground}
             testID="close-choice-background"
           >
-            最小化到托盘
+            {t("closeChoice.background")}
           </Button>
         </View>
       </View>
@@ -205,13 +206,14 @@ export function CloseChoiceDialogHost() {
       handleQuit,
       handleCancel,
       handleRemember,
+      t,
     ],
   );
 
   return (
     <AdaptiveModalSheet
       visible={request !== null}
-      header={CLOSE_CHOICE_HEADER}
+      header={header}
       onClose={handleCancel}
       footer={footer}
       desktopMaxWidth={400}
@@ -220,7 +222,7 @@ export function CloseChoiceDialogHost() {
       scrollable={false}
       testID="close-choice-dialog"
     >
-      <Text style={styles.message}>选择最小化到系统托盘后，可通过托盘图标恢复窗口。</Text>
+      <Text style={styles.message}>{t("closeChoice.message")}</Text>
     </AdaptiveModalSheet>
   );
 }

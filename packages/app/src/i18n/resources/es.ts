@@ -7,6 +7,14 @@ import { schedules } from "./schedules";
 import { wallpaperLibrary } from "./wallpaper-library";
 
 export const es: TranslationResources = {
+  closeChoice: {
+    title: "Al cerrar la ventana",
+    message: "Si minimizas a la bandeja del sistema, puedes restaurar la ventana desde su icono.",
+    remember: "Recordar mi elección y no volver a preguntar",
+    cancel: "Cancelar",
+    quit: "Salir de la aplicación",
+    background: "Minimizar a la bandeja",
+  },
   plugins: en.plugins,
   nativePlugin: en.nativePlugin,
   providerUsage: providerUsage.es,

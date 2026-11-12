@@ -7,6 +7,14 @@ import { schedules } from "./schedules";
 import { wallpaperLibrary } from "./wallpaper-library";
 
 export const ja: TranslationResources = {
+  closeChoice: {
+    title: "ウィンドウを閉じるとき",
+    message: "システムトレイに最小化した場合は、トレイアイコンからウィンドウを復元できます。",
+    remember: "選択を記憶して次回から確認しない",
+    cancel: "キャンセル",
+    quit: "アプリを終了",
+    background: "トレイに最小化",
+  },
   plugins: en.plugins,
   nativePlugin: en.nativePlugin,
   providerUsage: providerUsage.ja,

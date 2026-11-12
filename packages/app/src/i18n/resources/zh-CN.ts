@@ -10,6 +10,14 @@ import { visualFeedback } from "./visual-feedback";
 import { unifiedPluginSettings, nativePluginDetails } from "./unified-plugin-settings";
 
 export const zhCN: TranslationResources = {
+  closeChoice: {
+    title: "点击关闭时",
+    message: "选择最小化到系统托盘后，可通过托盘图标恢复窗口。",
+    remember: "记住我的选择，不再提醒",
+    cancel: "取消",
+    quit: "退出应用",
+    background: "最小化到托盘",
+  },
   plugins: unifiedPluginSettings["zh-CN"],
   nativePlugin: { details: nativePluginDetails["zh-CN"] },
   providerUsage: providerUsage["zh-CN"],

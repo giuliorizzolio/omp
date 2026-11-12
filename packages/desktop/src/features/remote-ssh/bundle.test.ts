@@ -36,4 +36,30 @@ describe("remote backend manifest v2", () => {
     await writeFile(path.join(directory, "packages", "server.tgz"), "corrupt");
     await expect(selectRemoteBackendBundle(manifest, "linux-x64")).rejects.toThrow("packages/server.tgz");
   });
+  it("accepts the complete generated workspace bundle and checks both plugin archives", async () => {
+    await writeRemoteBackendFixture(directory);
+    const manifest = await loadRemoteBackendManifest(directory);
+    expect(Object.keys(manifest.files)).toEqual([
+      "packages/highlight.tgz",
+      "packages/protocol.tgz",
+      "packages/relay.tgz",
+      "packages/client.tgz",
+      "packages/plugin.tgz",
+      "packages/qqbot.tgz",
+      "packages/server.tgz",
+      "packages/cli.tgz",
+    ]);
+    const bundle = await selectRemoteBackendBundle(manifest, "linux-x64");
+    expect(bundle.files.map((file) => file.relativePath)).toEqual(
+      expect.arrayContaining(["packages/plugin.tgz", "packages/qqbot.tgz"]),
+    );
+    for (const name of ["plugin", "qqbot"]) {
+      await writeFile(path.join(directory, "packages", `${name}.tgz`), "corrupt");
+      await expect(selectRemoteBackendBundle(manifest, "linux-x64")).rejects.toThrow(
+        `packages/${name}.tgz`,
+      );
+      await writeFile(path.join(directory, "packages", `${name}.tgz`), `Workspace package: ${name}`);
+    }
+  });
+
 });

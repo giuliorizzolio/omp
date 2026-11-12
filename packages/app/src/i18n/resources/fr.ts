@@ -7,6 +7,14 @@ import { schedules } from "./schedules";
 import { wallpaperLibrary } from "./wallpaper-library";
 
 export const fr: TranslationResources = {
+  closeChoice: {
+    title: "À la fermeture de la fenêtre",
+    message: "Si vous réduisez l'application dans la zone de notification, vous pouvez restaurer la fenêtre depuis son icône.",
+    remember: "Mémoriser mon choix et ne plus demander",
+    cancel: "Annuler",
+    quit: "Quitter l'application",
+    background: "Réduire dans la zone de notification",
+  },
   plugins: en.plugins,
   nativePlugin: en.nativePlugin,
   providerUsage: providerUsage.fr,

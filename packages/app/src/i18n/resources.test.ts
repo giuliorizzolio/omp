@@ -96,6 +96,17 @@ function findUntranslatedConnectionErrors(): string[] {
 }
 
 describe("translation resources", () => {
+  it("localizes all close-choice dialog actions instead of hardcoding Chinese", () => {
+    for (const resource of [ar, en, es, fr, ja, ko, ptBR, ru, zhCN]) {
+      expect(Object.values(resource.closeChoice).every((label) => label.trim().length > 0)).toBe(true);
+    }
+    expect(en.closeChoice.title).toBe("When closing the window");
+    expect(zhCN.closeChoice.title).toBe("点击关闭时");
+    for (const resource of [ar, en, es, fr, ja, ko, ptBR, ru]) {
+      expect(resource.closeChoice.title).not.toBe(zhCN.closeChoice.title);
+    }
+  });
+
   it("keeps all supported language keys in sync with English", () => {
     const englishKeys = flattenKeys(en).sort();
     expect(flattenKeys(ar).sort()).toEqual(englishKeys);

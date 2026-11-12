@@ -7,6 +7,14 @@ import { schedules } from "./schedules";
 import { wallpaperLibrary } from "./wallpaper-library";
 
 export const ru: TranslationResources = {
+  closeChoice: {
+    title: "При закрытии окна",
+    message: "Если свернуть приложение в системный трей, окно можно восстановить через значок в трее.",
+    remember: "Запомнить мой выбор и больше не спрашивать",
+    cancel: "Отмена",
+    quit: "Выйти из приложения",
+    background: "Свернуть в трей",
+  },
   plugins: en.plugins,
   nativePlugin: en.nativePlugin,
   providerUsage: providerUsage.ru,

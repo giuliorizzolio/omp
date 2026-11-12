@@ -27,6 +27,8 @@ const ManifestSchema = z.object({
     "packages/protocol.tgz": HashSchema,
     "packages/relay.tgz": HashSchema,
     "packages/client.tgz": HashSchema,
+    "packages/plugin.tgz": HashSchema,
+    "packages/qqbot.tgz": HashSchema,
     "packages/server.tgz": HashSchema,
     "packages/cli.tgz": HashSchema,
   }).strict(),

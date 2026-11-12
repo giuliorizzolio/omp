@@ -16,12 +16,21 @@ export async function writeRemoteBackendFixture(directory: string): Promise<Remo
   await mkdir(path.join(directory, "packages"), { recursive: true });
   const commonFiles: Record<string, string> = {};
   const dependencies: Record<string, string> = {};
-  for (const name of ["highlight", "protocol", "relay", "client", "server", "cli"]) {
-    const relativePath = `packages/${name}.tgz`;
-    const archive = Buffer.from(`Workspace package: ${name}`);
+  for (const [archiveName, packageName] of [
+    ["highlight", "highlight"],
+    ["protocol", "protocol"],
+    ["relay", "relay"],
+    ["client", "client"],
+    ["plugin", "plugin"],
+    ["qqbot", "plugin-qqbot"],
+    ["server", "server"],
+    ["cli", "cli"],
+  ] as const) {
+    const relativePath = `packages/${archiveName}.tgz`;
+    const archive = Buffer.from(`Workspace package: ${archiveName}`);
     await writeFile(path.join(directory, relativePath), archive);
     commonFiles[relativePath] = sha256(archive);
-    dependencies[`@omp-desktop/${name}`] = `file:${relativePath}`;
+    dependencies[`@omp-desktop/${packageName}`] = `file:${relativePath}`;
   }
   const manifest: RemoteBackendFixture["manifest"] = {
     schemaVersion: 2,
