@@ -7,7 +7,7 @@ import { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
 import * as pty from "node-pty";
 import { MarkerBuffer } from "./marker-buffer.js";
-import { buildSshArguments, resolveSshExecutable } from "./target.js";
+import { buildSshSessionArguments, resolveSshExecutable } from "./target.js";
 import type { RemoteSshTarget } from "./types.js";
 
 export interface SshPtySessionOptions {
@@ -24,7 +24,7 @@ export class SshPtySession {
   private readonly markers = new MarkerBuffer();
   private readonly process: pty.IPty;
   private readonly target: RemoteSshTarget;
-  private readonly controlPath: string;
+  private readonly controlPath: string | undefined;
   private readonly sshExecutable: string;
   private readonly commands = new Set<ChildProcessWithoutNullStreams>();
   private interactive = true;
@@ -33,10 +33,9 @@ export class SshPtySession {
   constructor(options: SshPtySessionOptions) {
     this.target = options.target;
     this.sshExecutable = resolveSshExecutable();
-    this.controlPath = path.join(
-      os.tmpdir(),
-      `omp-ssh-${process.pid}-${randomUUID().slice(0, 8)}.sock`,
-    );
+    this.controlPath = process.platform === "win32"
+      ? undefined
+      : path.join(os.tmpdir(), `omp-ssh-${process.pid}-${randomUUID().slice(0, 8)}.sock`);
     const env = Object.fromEntries(
       Object.entries(process.env).filter(
         (entry): entry is [string, string] => entry[1] !== undefined,
@@ -45,9 +44,10 @@ export class SshPtySession {
     this.process = pty.spawn(
       this.sshExecutable,
       [
-        ...buildSshArguments(options.target, {
+        ...buildSshSessionArguments(options.target, {
+          platform: process.platform,
+          phase: "bootstrap",
           controlPath: this.controlPath,
-          controlMaster: true,
         }),
         options.remoteCommand,
       ],
@@ -112,10 +112,10 @@ export class SshPtySession {
     const child = spawn(
       this.sshExecutable,
       [
-        ...buildSshArguments(this.target, {
-          tty: false,
+        ...buildSshSessionArguments(this.target, {
+          platform: process.platform,
+          phase: "command",
           controlPath: this.controlPath,
-          batchMode: true,
         }),
         remoteCommand,
       ],
@@ -164,6 +164,7 @@ export class SshPtySession {
   }
 
   private removeControlSocket(): void {
+    if (!this.controlPath) return;
     try {
       unlinkSync(this.controlPath);
     } catch {
