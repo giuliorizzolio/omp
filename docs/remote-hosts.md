@@ -6,6 +6,32 @@ The Desktop app can provision a remote daemon from **Settings → General → Ad
 
 SSH is used only to inspect the host, upload the version-matched backend, start the daemon, and obtain its pairing offer. After pairing, SSH closes and the app connects through the configured end-to-end encrypted Relay. The remote daemon remains bound to `127.0.0.1:6770`; **do not expose that port to the Internet**.
 
+### Windows OpenSSH transport
+
+Windows' built-in OpenSSH client does not implement Unix-domain SSH control
+sockets (ControlMaster and ControlPath). On Windows, the installer uses an
+interactive SSH connection for the bootstrap, then opens **independent**
+non-interactive SSH connections for host inspection, commands, and bundle
+uploads. macOS and Linux continue using a shared multiplexed SSH connection.
+
+**Windows requirement:** secondary connections run with `BatchMode=yes`, because
+their standard input is used to upload binary data. The remote host must allow
+non-interactive key authentication (for example, a private key without a
+passphrase, or a passphrase-protected key loaded into `ssh-agent`). Password-only
+login or an MFA prompt on *each* SSH connection cannot complete provisioning on
+Windows, even if the initial interactive login succeeded.
+
+Before provisioning, check from a Windows PowerShell terminal (substitute your
+host, username, and identity path):
+
+```powershell
+ssh -o BatchMode=yes -o IdentitiesOnly=yes -i "$HOME\.ssh\id_ed25519" dev@devbox whoami
+```
+
+If this cannot connect without an interactive prompt, configure an SSH agent or
+another non-interactive identity before trying the Desktop connection. SSH
+host-key verification remains enabled; the fix does not disable it.
+
 SSH passwords, private-key passphrases, MFA responses, and pairing links are never persisted. The local management profile stores only the SSH target fields, identity-file path, remote runtime path, server ID, and deployed version. Model-source choices are stored separately in the Desktop host registry.
 
 See [self-hosted Web and relay deployment](deployment.md) for relay configuration, browser-facing addresses, and pairing-link precautions.
