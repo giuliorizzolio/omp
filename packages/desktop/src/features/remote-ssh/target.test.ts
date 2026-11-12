@@ -63,7 +63,7 @@ describe("buildSshSessionArguments", () => {
     host: "devbox",
     username: "dev",
     port: 22,
-    identityFile: String.raw`C:\\Users\\developer\\.ssh\\id_ed25519`,
+    identityFile: String.raw`C:\Users\developer\.ssh\id_ed25519`,
   };
 
   it("uses a standalone interactive SSH connection on Windows", () => {
