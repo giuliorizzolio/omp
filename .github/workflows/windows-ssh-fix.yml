@@ -66,7 +66,7 @@ jobs:
   installer:
     name: Package Windows x64 installer
     needs: sdk
-    runs-on: macos-14
+    runs-on: windows-2022
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
