@@ -98,7 +98,7 @@ export async function selectRemoteBackendBundle(
       : path.join("targets", target, relativePath);
     const contents = await readFile(path.join(manifest.directory, localPath));
     if (createHash("sha256").update(contents).digest("hex") !== expectedHash) {
-      throw new Error(`Remote backend bundle checksum mismatch: ${localPath}`);
+      throw new Error(`Remote backend bundle checksum mismatch: ${localPath.split(path.sep).join("/")}`);
     }
     files.push({ relativePath, source: contents, size: contents.byteLength, sha256: expectedHash });
   }
